@@ -1,0 +1,16 @@
+# IP address lookup
+
+up=$(ip -o link show | grep -E 'state UP' | awk '{print $2}' | tr -d ':')
+if [ -n "$up" ]; then
+     for adapter in $up; do
+        echo -n "Internal IP: "
+        ip addr show $adapter | grep "inet " | awk '{print $2}' | cut -d/ -f1
+     done
+else
+     echo "No network adapters found to be UP."
+fi
+
+   # External IP Lookup
+    echo -n "External IP: "
+    curl -s ifconfig.me
+#end
