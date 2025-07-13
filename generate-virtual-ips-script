@@ -1,0 +1,47 @@
+# Create hundreds of virtual nics and ips for stress testing
+# Then tear them down again.
+
+#script -- ip_army_up.sh
+#############################################
+# Script to light up IP Addresses on        #
+# NIC using ip aliases / virtual ip         #
+# /21 network for over 2000 IP Addresses    #
+# 192.168.200.1 - 192.168.207.254           #
+#                                           #
+# nyk@linux.com                             #
+#############################################
+
+# Raise the Army
+#!/bin/bash
+
+MAX=252
+# modify ifconfig line for correct iface, ip and netmask
+for x in $(seq 3 $MAX) #start from host ip .3 adjust as needed
+do
+    ifconfig ens224:${x} 192.168.201.${x} netmask 255.255.248.0 up
+done
+
+
+#end of script -- ip_army_up.sh
+
+#script -- ip_army_down.sh
+#############################################
+# Script to remove IP Addresses on          #
+# NIC using ip aliases / virtual ip         #
+# /21 network for over 2000 IP Addresses    #
+# 192.168.200.1 - 192.168.207.254           #
+#                                           #
+# nyk@linux.com                             #
+#############################################
+
+## Drop the Army
+#!/bin/bash
+
+MAX=252
+# modify ifconfig line for correct iface, ip and netmask
+for x in $(seq 3 $MAX) #start from host ip .3 adjust as needed
+do
+    ifconfig ens224:${x} del 192.168.201.${x}
+done
+
+#end of script -- ip_army_down.sh
